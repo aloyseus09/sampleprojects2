@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Personal Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #007acc;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        h1 {
+            font-size: 36px;
+        }
+
+        nav {
+            background-color: #005d91;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            padding: 10px 12px;
+
+            
+        }
+
+        nav a:hover {
+            
+            background-color: #ddd;
+            color: black;
+            border-radius: 5px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            text-align: center;
+            background-color: #007acc;
+            color: white;
+            padding: 10px 0;
+        }
+        canvas {
+            background-color: #f0f0f0;
+            display: block;
+            margin: 0 auto;
+        }
+        p.paragraphs{
+            text-indent: 40px;
+            text-align: justify;
+
+        }
+        p.portfolios{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>ALOYSIUS JOHN E. VILLACANAS</h1>
+        <p>Web Developer & Designer</p>
+    </header>
+
+    <nav>
+        <a href="#about">About</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="container" id="about">
+        <h2>About Me</h2>
+        <p class="paragraphs">Welcome to my personal website! I am a passionate 
+            web developer and designer with a love for 
+            creating beautiful and functional websites.
+        </p>
+        <p class="paragraphs">
+        As an Electronics Engineer, my professional journey 
+            has involved closely monitoring web, Android, and 
+            iOS applications. This experience has not only 
+            deepened my comprehension of their functionalities 
+            but has also significantly enhanced my analytical 
+            thinking abilities. Given the opportunity for 
+            further training, I am confident in my ability to 
+            continually enhance my skills and deliver 
+            outstanding results for any organization.</p>
+    </div>
+
+    <div class="container" id="portfolio">
+        <h2>Portfolio</h2>
+        <p class="portfolios">Avoid the Red Block!</p>
+        <canvas id="gameCanvas" width="500" height="500"></canvas>
+    </div>
+
+    <div class="container" id="contact">
+        <h2>Contact Me</h2>
+        <p>If you'd like to get in touch with me, you can reach out to me at ajvillacanasccsjdm@gmail.com.</p>
+    </div>
+
+    <footer>
+        &copy; 2023 Aloysius John E. Villacanas
+    </footer>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        const playerSize = 30;
+        let playerX = canvas.width / 2 - playerSize / 2;
+        const playerY = canvas.height - playerSize - 10;
+        const playerSpeed = 5;
+
+        const enemySize = 30;
+        let enemyX = Math.random() * (canvas.width - enemySize);
+        let enemyY = 0;
+        const enemySpeed = 2;
+
+        let isGameOver = false;
+
+        function drawPlayer() {
+            ctx.fillStyle = "#007acc";
+            ctx.fillRect(playerX, playerY, playerSize, playerSize);
+        }
+
+        function drawEnemy() {
+            ctx.fillStyle = "#ff0000";
+            ctx.fillRect(enemyX, enemyY, enemySize, enemySize);
+        }
+
+        function movePlayer(direction) {
+            if (direction === "left" && playerX > 0) {
+                playerX -= playerSpeed;
+            } else if (direction === "right" && playerX + playerSize < canvas.width) {
+                playerX += playerSpeed;
+            }
+        }
+
+        function update() {
+            if (isGameOver) {
+                return;
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            drawPlayer();
+            drawEnemy();
+
+            enemyY += enemySpeed;
+
+            if (enemyY > canvas.height) {
+                enemyX = Math.random() * (canvas.width - enemySize);
+                enemyY = 0;
+            }
+
+            if (
+                playerX < enemyX + enemySize &&
+                playerX + playerSize > enemyX &&
+                playerY < enemyY + enemySize &&
+                playerY + playerSize > enemyY
+            ) {
+                isGameOver = true;
+                alert("Game Over!");
+                location.reload(); // Reload the game after it's over
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "ArrowLeft") {
+                movePlayer("left");
+            } else if (event.key === "ArrowRight") {
+                movePlayer("right");
+            }
+        });
+
+        update();
+    </script>
+</body>
+</html>
